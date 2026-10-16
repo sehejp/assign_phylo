@@ -92,6 +92,16 @@ def neighbor_joining(distances: np.ndarray, labels: list) -> Node:
 
         counter += 1
         new_node = Node(f"node_{counter}", nodes[i], dist_i, nodes[j], dist_j)
+
+        new_d = 0.5 * (D[i] + D[j] - D[i, j])
+
+        keep = [k for k in range(n) if k not in (i, j)]
+        D_new = np.zeros((n - 1, n - 1))
+        D_new[:-1, :-1] = D[np.ix_(keep, keep)]
+        D_new[-1, :-1] = new_d[keep]
+        D_new[:-1, -1] = new_d[keep]
+        D = D_new
+        nodes = [nodes[k] for k in keep] + [new_node]
     
     self.tree = Node()
 
