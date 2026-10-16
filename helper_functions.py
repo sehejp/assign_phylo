@@ -102,10 +102,9 @@ def neighbor_joining(distances: np.ndarray, labels: list) -> Node:
         D_new[:-1, -1] = new_d[keep]
         D = D_new
         nodes = [nodes[k] for k in keep] + [new_node]
-    
-    self.tree = Node()
 
-    raise NotImplementedError()
+    half = D[0, 1] / 2
+    return Node("root", nodes[0], half, nodes[1], half)
 
 
 def plot_nj_tree(tree: Node, ax: Axes = None, **kwargs) -> None:
