@@ -141,6 +141,7 @@ def plot_nj_tree(tree: Node, ax: Axes = None, **kwargs) -> None:
     }
 
     fontsize = kwargs.get("fontsize", 10)
+    label_colors = kwargs.get("label_colors", {})
 
     leaf_y = [0]
     max_x = [0.0]
@@ -154,7 +155,8 @@ def plot_nj_tree(tree: Node, ax: Axes = None, **kwargs) -> None:
             y = leaf_y[0]
             leaf_y[0] += 1
             max_x[0] = max(max_x[0], x)
-            ax.text(x, y, f" {node.name}", va="center", ha="left", fontsize=fontsize)
+            ax.text(x, y, f" {node.name}", va="center", ha="left", fontsize=fontsize,
+                   color=label_colors.get(node.name, line_kw["color"]))
             return y
 
         children_y = []
@@ -164,7 +166,10 @@ def plot_nj_tree(tree: Node, ax: Axes = None, **kwargs) -> None:
             child_x = x + dist
             child_y = draw(child, child_x)
 
-            ax.plot([x, child_x], [child_y, child_y], **line_kw)
+            kw = dict(line_kw)
+            if is_leaf(child) and child.name in label_colors:
+                kw["color"] = label_colors[child.name]
+            ax.plot([x, child_x], [child_y, child_y], **kw)
             children_y.append(child_y)
 
         ax.plot([x, x], [min(children_y), max(children_y)], **line_kw)
