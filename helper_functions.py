@@ -144,9 +144,34 @@ def plot_nj_tree(tree: Node, ax: Axes = None, **kwargs) -> None:
 
     leaf_y = [0]
     max_x = [0.0]
-        
 
-    return ax
+    def is_leaf(node):
+        return node.left is None and node.right is None
+
+    def draw(node, x):
+        """Draw node at horizontal position x; return its vertical position"""
+        if is_leaf(node): 
+            y = leaf_y[0]
+            leaf_y[0] += 1
+            max_x[0] = max(max_x[0], x)
+            ax.text(x, y, f" {node.name}", va="center", ha="left", fontsize=fontsize)
+            return y
+
+        children_y = []
+        for child, dist in ((node.left, node.left_distance), (node.right, node.right_distance)):
+            if child is None: 
+                continue
+
+            child_x = x + dist
+            child_y = draw(child, child_x)
+
+            ax.plot([x, child_x], [child_y, child_y], **line_kw)
+            children_y.append(child_y)
+
+        ax.plot([x, x], [min(children_y), max(children_y)], **line_kw)
+        return sum(children_y) / len(children_y)
+
+    draw(tree, 0.0)
 
 
 def _find_a_parent_to_node(tree: Node, node: Node) -> tuple:
