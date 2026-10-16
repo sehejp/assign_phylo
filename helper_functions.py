@@ -161,7 +161,6 @@ def plot_nj_tree(tree: Node, ax: Axes = None, **kwargs) -> None:
         for child, dist in ((node.left, node.left_distance), (node.right, node.right_distance)):
             if child is None: 
                 continue
-
             child_x = x + dist
             child_y = draw(child, child_x)
 
@@ -173,6 +172,14 @@ def plot_nj_tree(tree: Node, ax: Axes = None, **kwargs) -> None:
 
     draw(tree, 0.0)
 
+    ax.set_xlim(-0.02 * max_x[0], max_x[0] * 1.25 if max_x[0] > 0 else 1)
+    ax.set_ylim(leaf_y[0] - 0.5, -0.5)
+    ax.set_yticks([])
+    for side in ("top", "right", "left"):
+        ax.spines[side].set_visible(False)
+    ax.set_xlabel("Genetic distance")
+
+    return ax
 
 def _find_a_parent_to_node(tree: Node, node: Node) -> tuple:
     """Utility function for reroot_tree"""
