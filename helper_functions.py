@@ -70,6 +70,16 @@ def neighbor_joining(distances: np.ndarray, labels: list) -> Node:
         A root node of the neighbor joining tree.
 
     """
+
+    D = np.array(distances, dtype=float)
+    nodes = [Node(str(label), None, 0.0, None, 0.0) for label in labels]
+
+    if len(nodes) == 1:
+        return nodes[0]
+
+    counter = 0
+    while len(nodes) > 2:
+        n = len(nodes)
     
     self.tree = Node()
 
