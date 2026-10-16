@@ -2,7 +2,7 @@
 import numpy as np
 from copy import deepcopy
 from matplotlib.axes import Axes
-import matplotlip.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 class Node:
