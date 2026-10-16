@@ -86,6 +86,12 @@ def neighbor_joining(distances: np.ndarray, labels: list) -> Node:
         np.fill_diagonal(Q, np.inf)
 
         i, j = np.unravel_index(np.argmin(Q), Q.shape)
+
+        dist_i = 0.5 * D[i, j] + (row_sums[i] - row_sums[j]) / (2 * (n - 2))
+        dist_j = D[i, j] - dist_i
+
+        counter += 1
+        new_node = Node(f"node_{counter}", nodes[i], dist_i, nodes[j], dist_j)
     
     self.tree = Node()
 
