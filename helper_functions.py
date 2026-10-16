@@ -80,6 +80,12 @@ def neighbor_joining(distances: np.ndarray, labels: list) -> Node:
     counter = 0
     while len(nodes) > 2:
         n = len(nodes)
+
+        row_sums = D.sum(axis = 1)
+        Q = (n - 2) * D - row_sums[:, None] - row_sums[None, :]
+        np.fill_diagonal(Q, np.inf)
+
+        i, j = np.unravel_index(np.argmin(Q), Q.shape)
     
     self.tree = Node()
 
