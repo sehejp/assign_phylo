@@ -2,6 +2,7 @@
 import numpy as np
 from copy import deepcopy
 from matplotlib.axes import Axes
+import matplotlip.pyplot as plt
 
 
 class Node:
@@ -130,6 +131,20 @@ def plot_nj_tree(tree: Node, ax: Axes = None, **kwargs) -> None:
     >>> fig.savefig("example.png")
 
     """
+
+    if ax is None:
+        ax = plt.gca()
+
+    line_kw = {
+        "color": kwargs.get("color", "black"), 
+        "linewidth": kwargs.get("linewidth", 1.5),
+    }
+
+    fontsize = kwargs.get("fontsize", 10)
+
+    leaf_y = [0]
+    max_x = [0.0]
+        
 
     return ax
 
