@@ -271,8 +271,23 @@ def sort_children_by_leaves(tree: Node) -> None:
         The root node of the tree.
 
     """
-    raise NotImplementedError()
+    def count_leaves(node):
+        """Count leaves under node, swapping children so left has fewer."""
+        if node is None:
+            return 0
+        if node.left is None and node.right is None:
+            return 1
 
+        left_count = count_leaves(node.left)
+        right_count = count_leaves(node.right)
+
+        if left_count > right_count:
+            node.left, node.right = node.right, node.left
+            node.left_distance, node.right_distance = node.right_distance, node.left_distance
+
+        return left_count + right_count
+
+    count_leaves(tree)
 
 def plot_nj_tree_radial(tree: Node, ax: Axes = None, **kwargs) -> None:
     """A function for plotting neighbor joining phylogeny dendrogram
